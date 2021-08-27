@@ -4,13 +4,13 @@
     <mat-icon matChipRemove *ngIf="removable" (click)="toggleSelection(item)">cancel</mat-icon>
   </mat-chip>
   <input #input #inputTrigger matInput
-  type="text"
-  placeholder="{{placeholder}}"
-  [matAutocomplete]="autoComplete"
-  [formControl]="itemControl"
-  [matChipInputFor]="chipList"
-  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-  (matChipInputTokenEnd)="add($event)">
+type="text"
+placeholder="{{placeholder}}"
+[matAutocomplete]="autoComplete"
+[formControl]="itemControl"
+[matChipInputFor]="chipList"
+[matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+(matChipInputTokenEnd)="add($event)">
 </mat-chip-list>
 <mat-autocomplete #autoComplete="matAutocomplete">
   <mat-option *ngFor="let item of filteredItems" [value]="selectedItems">

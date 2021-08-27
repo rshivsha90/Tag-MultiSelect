@@ -8,7 +8,7 @@ import {
   EventEmitter
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { map, startWith } from 'rxjs/operators';
+import { debounceTime, map, startWith } from 'rxjs/operators';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
@@ -85,6 +85,7 @@ export class MultiselectAutocompleteExample implements OnInit {
     this.itemControl.valueChanges
       .pipe(
         startWith<string | ItemList[]>(''),
+        debounceTime(0),
         map(value => (typeof value === 'string' ? value : this.lastFilter)),
         map((filter: any) => this.filter(filter))
       )
@@ -120,18 +121,21 @@ export class MultiselectAutocompleteExample implements OnInit {
     const filterdata = this.items.filter(
       item => !this.selectedItems.find(o => o.item === item.item)
     );
-    this.addNew.emit([...this.selectedItems, ...filterdata]);
+    // this.addNew.emit([...this.selectedItems, ...filterdata]);
+    this.addNew.emit([...this.selectedItems]);
   }
 
-  add(event: MatChipInputEvent): void {
+  add(event): void {
     const value = (event.value || '').trim();
     if (value) {
       const item = new ItemList(value);
       this.toggleSelection(item);
     }
     event.value = ' ';
-    event.input.value = ' ';
-    this.inputTrigger.openPanel();
+    if (event.input) {
+        event.input.value = ' ';
+    }
+    this.itemControl.setValue('');
   }
 
   ngOnDestroy() {

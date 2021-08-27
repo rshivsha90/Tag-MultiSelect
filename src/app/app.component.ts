@@ -1,3 +1,5 @@
+import { TestRequest } from '@angular/common/http/testing';
+import { isTrustedTypesSink } from '@angular/compiler/src/schema/trusted_types_sinks';
 import { Component } from '@angular/core';
 import { ItemList } from './multiselect-autocomplete-example';
 
@@ -8,11 +10,27 @@ import { ItemList } from './multiselect-autocomplete-example';
       <multiselect-autocomplete
         [placeholder]="'New item..'"
         [items]="items"
-        [value]="value"
+        [value]="selectedItems"
         (addNew)="addNewItem($event)"
       >
       </multiselect-autocomplete>
     </form>
+    <div>
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling; Some data for scrolling;
+      Some data for scrolling; Some data for scrolling;
+    </div>
   `
 })
 export class AppComponent {
@@ -22,14 +40,18 @@ export class AppComponent {
     new ItemList('Odessa Thorton'),
     new ItemList('Julianne Gills')
   ];
-  value = [
+  selectedItems = [
     new ItemList('Misha Arnold', true),
     new ItemList('Odessa Thorton', true)
   ];
 
   constructor() {}
   public addNewItem(event) {
-    this.items = event;
-    console.log('newItems:',this.items);
+    // this.items = event;
+    const filterdata = this.items.filter(
+      item => !this.selectedItems.find(o => o.item === item.item)
+    );
+    this.items = [...filterdata, ...event];
+    console.log(this.items);
   }
 }
