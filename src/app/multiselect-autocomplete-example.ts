@@ -53,18 +53,18 @@ export class MultiselectAutocompleteExample implements OnInit {
     this._items = value;
   }
   get items() {
-    if(!this._items.length) {
+    if (!this._items.length) {
       return [];
     }
-    if(this.selectedItems.length) {
-    this.selectedItems.forEach(o => {
-      this._items.forEach(item => {
-        if (item.item === o.item) {
-          item['selected'] = o.selected;
-        }
+    if (this.selectedItems.length) {
+      this.selectedItems.forEach(o => {
+        this._items.forEach(item => {
+          if (item.item === o.item) {
+            item['selected'] = o.selected;
+          }
+        });
       });
-    });
-  }
+    }
     return this._items;
   }
   @Output() addNew = new EventEmitter<ItemList[]>();
@@ -133,7 +133,7 @@ export class MultiselectAutocompleteExample implements OnInit {
     }
     event.value = ' ';
     if (event.input) {
-        event.input.value = ' ';
+      event.input.value = ' ';
     }
     this.itemControl.setValue('');
   }
